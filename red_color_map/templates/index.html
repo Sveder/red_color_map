@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <title>Red Color Map - מפת צבע אדום</title>
+
+    
+    <script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCKGyJt0_6KI7E3NLtnlbAf7GYY3S3z_KE&sensor=false">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+    
+    <script>
+        $(function() {
+            //Create map:
+            var center = new google.maps.LatLng(31.784602,35.211671);
+            var myOptions = {
+              scrollwheel: false,
+              draggable: false,
+              zoomControl: false,
+              disableDoubleClickZoom: false,
+              navigationControl: false,
+              mapTypeControl: false,
+              scaleControl: false,
+              streetViewControl: false,
+              disableDefaultUI: true,
+              center: center,
+              zoom: 9,
+              mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            
+            map = new google.maps.Map(document.getElementById("map-div"),
+                myOptions);
+ 
+        });
+        
+    </script>
+
+  </head>
+  
+  <body style="background-color:#F0EDE5">
+    
+    <div id="map-div" style="position:absolute; margin:0px; width:99%; height:99%;"></div>
+    
+  </body>
+</html>
