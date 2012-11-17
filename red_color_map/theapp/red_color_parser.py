@@ -57,12 +57,13 @@ def parse_cities(title):
     return final_cities
 
 class Report:
-    def __init__(self, cities, _time, item):
+    def __init__(self, cities, _time, item, guid):
         self.cities = cities
         #Time is given in +0000 timezone. Israel is in +0200 or +0300, so fix this:
         self.time = time.mktime(_time)
         self.time += 2 * 60 * 60
         self.item = item
+        self.guid = guid
 
 
 def parse_feed_into_items():
@@ -76,11 +77,11 @@ def parse_feed_into_items():
         title = i["title"]
         if not title:
             continue
-        
+
         title = decode_unicode_references(title)
         cities = parse_cities(title)
         
-        reports.append(Report(cities, published, i))
+        reports.append(Report(cities, published, i, i["guid"]))
         
     return reports
 

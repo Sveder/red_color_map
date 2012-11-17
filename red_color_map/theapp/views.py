@@ -27,19 +27,15 @@ def _log(message, _pprint=False, _traceback=False):
 
 def filter_old_reports(reports):
     """
-    Filter all the reports that are already in the database (this is done using time only).
+    Filter all the reports that are already in the database (this is done using item GUID only).
     """
-    #Filter reports that are already in the db:
-    try:
-        latest_report_time = models.Attack.objects.order_by("-when")[0]
-    except IndexError:
-        latest_report_time = -1
-    
     new_reports = []
     for report in reports:
-        if report.time > latest_report_time:
+        try:
+            models.Attack.objects.get(guid=report.guid)
+        except models.Attack.DoesNotExist:
             new_reports.append(report)
-    
+    print new_reports
     return new_reports
 
 def find_areas_in_report(report):
@@ -49,9 +45,14 @@ def find_areas_in_report(report):
     all_areas = models.Area.objects.all()
     found_areas = []
     for city in report.cities:
+        found = False
         for area in all_areas:
             if area.hebrew_name in city:
+                found = True
                 found_areas.append(area)
+        
+        if not found:
+            print "not found"
     
     return found_areas
 
@@ -78,7 +79,9 @@ def home(request):
     sync_attacks()
     
     #Show latest five:
-    latest = models.Attack.objects.order_by("-when")[:5]
+    latest = models.Attack.objects.order_by("when")[:5]
+    for i in latest:
+        print i.when
     
     t = loader.get_template("index.html")
     c = RequestContext(request, {"latest" : latest})

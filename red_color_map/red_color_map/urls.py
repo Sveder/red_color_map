@@ -13,7 +13,10 @@ urlpatterns = patterns('',
     url(r'^$', 'theapp.views.home', name='home'),
     
     (r'^%s/' % settings.DAJAXICE_MEDIA_PREFIX, include('dajaxice.urls')),
-    
+
+    #API urls:
+    url(r'^$', 'theapp.views.home', name='home'),
+
 
     # url(r'^red_color_map/', include('red_color_map.foo.urls')),
 

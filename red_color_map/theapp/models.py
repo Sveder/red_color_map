@@ -12,5 +12,5 @@ class Area(models.Model):
 class Attack(models.Model):
     area = models.ForeignKey(Area, null=True)
     when = models.BigIntegerField()
-        
+    guid = models.CharField(max_length=300)
     raw_item = models.TextField()
