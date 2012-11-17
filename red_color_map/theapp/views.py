@@ -70,9 +70,11 @@ def sync_attacks():
     reports = red_color_parser.parse_feed_into_items()
     new_reports = filter_old_reports(reports)
     insert_reports(new_reports)
+    return new_reports
 
 
 def home(request):
+    request.session["last_check"] = time.time()
     sync_attacks()
     
     #Show latest five:

@@ -1,3 +1,4 @@
+{% load dajaxice_templatetags %}
 <html>
   <head>
     <title>Red Color Map - מפת צבע אדום</title>
@@ -12,7 +13,7 @@
     <script>
         $(function() {
             //Create map:
-            var center = new google.maps.LatLng(31.784602,35.211671);
+            var center = new google.maps.LatLng(31.538749, 34.678344);
             var myOptions = {
               scrollwheel: false,
               draggable: false,
@@ -30,11 +31,51 @@
             
             map = new google.maps.Map(document.getElementById("map-div"),
                 myOptions);
+            
+            setInterval(check_attacks, 30 * 1000);
+            check_attacks()
+            
+            add_seed();
+            
  
         });
         
+        function after_check(data)
+        {
+          for (var i=0; i < data["latest"].length; ++i)
+          {
+            var report = data["latest"][i];
+            console.log(report.hebrew_name);
+            show_attack(report.hebrew_name, report.lat, report.long);
+          }
+        }
+        
+        function add_seed()
+        {
+          var location;
+          var marker;
+            {% for report in latest %}
+              show_attack('{{ report.area.hebrew_name }}', {{ report.area.center_lat }}, {{ report.area.center_long }});
+            {% endfor %}
+        }
+        
+        function check_attacks()
+        {
+          Dajaxice.theapp.check_attacks(after_check);
+        }
+        
+        function show_attack(name, lat, long)
+        {
+          var location = new google.maps.LatLng(lat, long);
+          var marker = new google.maps.Marker({
+                  position: location,
+                  map: map,
+                  title: name,
+                  });
+        }
+        
     </script>
-
+    {% dajaxice_js_import %}
   </head>
   
   <body style="background-color:#F0EDE5">

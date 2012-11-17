@@ -77,6 +77,8 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'dajaxice.finders.DajaxiceFinder',
+
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
@@ -87,7 +89,7 @@ SECRET_KEY = 'rl9@)2b(vxtbp@!@072p89=d83%k63p1=^+&amp;7dv#%-kdz*j+tz'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -98,6 +100,16 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages'
 )
 
 ROOT_URLCONF = 'red_color_map.urls'
@@ -119,7 +131,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+    "dajaxice",
     "south",
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
@@ -157,3 +169,6 @@ LOGGING = {
         },
     }
 }
+
+
+DAJAXICE_MEDIA_PREFIX = "dajaxice"
