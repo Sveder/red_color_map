@@ -14,3 +14,9 @@ class Attack(models.Model):
     when = models.BigIntegerField()
     guid = models.CharField(max_length=300)
     raw_item = models.TextField()
+    
+    def get_dict(self):
+        return {"area_name_english" : self.area.english_name,
+                "area_center_long" : self.area.center_long,
+                "area_center_lat" : self.area.center_lat,
+                "when" : self.when,}

@@ -118,7 +118,7 @@ ROOT_URLCONF = 'red_color_map.urls'
 WSGI_APPLICATION = 'red_color_map.wsgi.application'
 
 TEMPLATE_DIRS = (
-    'C:/work/red_color_map/red_color_map/red_color_map/templates',
+    'C:/work/color_red_map/code/red_color_map/templates',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.

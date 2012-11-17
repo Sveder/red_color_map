@@ -7,22 +7,10 @@ from django.http import HttpResponse, Http404, HttpResponseBadRequest
 
 import feedparser
 
+import logic
 import models
 import red_color_parser
-
-
-
-FEED_URL = r"https://www.facebook.com/feeds/page.php?id=201182249942365&format=rss20"
-
-
-def _log(message, _pprint=False, _traceback=False):
-    if _pprint:
-        pprint.pprint(message)
-    else:
-        print message
-    
-    if _traceback:
-        traceback.print_exc()
+from config import *
 
 
 def filter_old_reports(reports):
@@ -31,9 +19,7 @@ def filter_old_reports(reports):
     """
     new_reports = []
     for report in reports:
-        try:
-            models.Attack.objects.get(guid=report.guid)
-        except models.Attack.DoesNotExist:
+        if not models.Attack.objects.filter(guid=report.guid):
             new_reports.append(report)
     print new_reports
     return new_reports
@@ -64,7 +50,7 @@ def insert_reports(reports):
         areas = find_areas_in_report(rep)
         
         for area in areas:
-            area_model = models.Attack(area=area, when=rep.time, raw_item=rep.item)
+            area_model = models.Attack(area=area, when=rep.time, raw_item=rep.item, guid=rep.guid)
             area_model.save()
 
 def sync_attacks():            
@@ -78,8 +64,7 @@ def home(request):
     request.session["last_check"] = time.time()
     sync_attacks()
     
-    #Show latest five:
-    latest = models.Attack.objects.order_by("when")[:5]
+    latest = logic.get_latest_attacks(10)
     for i in latest:
         print i.when
     

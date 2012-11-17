@@ -8,8 +8,8 @@ import htmlentitydefs
 
 import feedparser
 
+from config import *
 
-FEED_URL = r"https://www.facebook.com/feeds/page.php?id=201182249942365&format=rss20"
 
 REMOVE_ALARM = u"אזעקת צבע אדום"
 HEBREW_SPLIT = "וב"
