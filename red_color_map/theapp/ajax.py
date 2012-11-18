@@ -1,5 +1,6 @@
 import json
 import time
+import traceback
 
 from dajaxice.decorators import dajaxice_register
 
@@ -29,6 +30,5 @@ def check_attacks(request):
         return json.dumps({"latest" : data})
     except:
         print "Something went wrong when checking_attacks:"
-        import traceback
         traceback.print_exc()
         

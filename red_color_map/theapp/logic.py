@@ -1,4 +1,5 @@
 import json
+
 import models
 from config import *
 
@@ -10,6 +11,13 @@ def get_latest_attacks(count):
     return latest
 
 
-
-
-
+def handle_unresolved_areas(not_found):
+    """
+    Update the unresolved areas table.
+    """
+    for area in not_found:
+        try:
+            models.AreaError.objects.get(name=area)
+        except models.AreaError.DoesNotExist:
+            error_model = models.AreaError(name=area)
+            error_model.save()

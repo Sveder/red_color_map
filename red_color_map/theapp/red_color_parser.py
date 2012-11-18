@@ -74,11 +74,11 @@ def parse_feed_into_items():
     for i in items:
         published = i["published_parsed"]
         
-        title = i["title"]
-        if not title:
+        title = i["title"].strip()
+        title = decode_unicode_references(title)
+        if not title or REMOVE_ALARM not in title:
             continue
 
-        title = decode_unicode_references(title)
         cities = parse_cities(title)
         
         reports.append(Report(cities, published, i, i["guid"]))

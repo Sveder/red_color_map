@@ -20,3 +20,7 @@ class Attack(models.Model):
                 "area_center_long" : self.area.center_long,
                 "area_center_lat" : self.area.center_lat,
                 "when" : self.when,}
+
+class AreaError(models.Model):
+    name = models.CharField(max_length=200)
+    solved = models.BooleanField(default=False)

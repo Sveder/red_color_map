@@ -21,7 +21,7 @@ def filter_old_reports(reports):
     for report in reports:
         if not models.Attack.objects.filter(guid=report.guid):
             new_reports.append(report)
-    print new_reports
+
     return new_reports
 
 def find_areas_in_report(report):
@@ -30,15 +30,20 @@ def find_areas_in_report(report):
     """
     all_areas = models.Area.objects.all()
     found_areas = []
+    not_found = []
+    
     for city in report.cities:
         found = False
         for area in all_areas:
             if area.hebrew_name in city:
                 found = True
                 found_areas.append(area)
+                break
         
         if not found:
-            print "not found"
+            not_found.append(city)
+    
+    logic.handle_unresolved_areas(not_found)
     
     return found_areas
 
@@ -65,8 +70,6 @@ def home(request):
     sync_attacks()
     
     latest = logic.get_latest_attacks(10)
-    for i in latest:
-        print i.when
     
     t = loader.get_template("index.html")
     c = RequestContext(request, {"latest" : latest})
