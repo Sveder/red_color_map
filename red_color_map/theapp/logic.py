@@ -21,3 +21,6 @@ def handle_unresolved_areas(not_found):
         except models.AreaError.DoesNotExist:
             error_model = models.AreaError(name=area)
             error_model.save()
+            lol_model = models.AreaError(name=area)
+            lol_model.save()
+            

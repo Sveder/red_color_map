@@ -11,6 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
     
     <script>
+        var geocoder;
         $(function() {
             //Create map:
             var center = new google.maps.LatLng(31.538749, 34.678344);
@@ -32,6 +33,7 @@
             map = new google.maps.Map(document.getElementById("map-div"),
                 myOptions);
             
+            geocoder = new google.maps.Geocoder()
             setInterval(check_attacks, 30 * 1000);
             check_attacks()
             
@@ -55,7 +57,16 @@
           var location;
           var marker;
             {% for report in latest %}
-              show_attack('{{ report.area.hebrew_name }}', {{ report.area.center_lat }}, {{ report.area.center_long }});
+              console.log("report");
+              geocoder.geocode( {'address': '{{ report.area.hebrew_name }}' }, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                  var lat = results[0].geometry.location.lat();
+                  var lng = results[0].geometry.location.lng();
+                  console.log("lat " + lat + " -- long " + lng);
+                  
+                  show_attack('{{ report.area.hebrew_name }}', lat, lng);
+              }});
+                
             {% endfor %}
         }
         
@@ -75,6 +86,21 @@
         }
         
     </script>
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-36413994-1']);
+      _gaq.push(['_setDomainName', 'redalert.sveder.com']);
+      _gaq.push(['_trackPageview']);
+    
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    
+    </script>
+    
     {% dajaxice_js_import %}
   </head>
   

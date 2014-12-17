@@ -41,7 +41,8 @@ def find_areas_in_report(report):
                 break
         
         if not found:
-            not_found.append(city)
+            lol_model = models.Area(hebrew_name=city)
+            lol_model.save()
     
     logic.handle_unresolved_areas(not_found)
     

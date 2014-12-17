@@ -1,7 +1,6 @@
 # TL;DR
-**red\_color\_map** is an online at:
 
-**[redalert.sveder.com][1]**
+**DEPRECATED, this probably doesn't work anymore**
 
 For everything else email me at: m@sveder.com
 
